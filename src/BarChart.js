@@ -1,6 +1,6 @@
 import { Box, Skeleton, Typography } from '@mui/material';
 import React from 'react';
-import { BarChart, LabelList, Legend, Tooltip, YAxis, CartesianGrid, XAxis, Bar, ResponsiveContainer } from 'recharts';
+import { BarChart, Legend, Tooltip, YAxis, CartesianGrid, XAxis, Bar, ResponsiveContainer } from 'recharts';
 import { useAppContext } from './Context';
 
 const BarChartTopFivePlayers = () => {

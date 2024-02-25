@@ -23,10 +23,8 @@ import { CircularProgress } from '@mui/material';
 function Row({ event, sport, medal, gameId, playerId }) {
   const [open, setOpen] = React.useState(false);
   const [details, setDetails] = React.useState({});
-  const [loading, setLoading] = React.useState(false);
 
   const handleOnOpen = async () => {
-    setLoading(true);
     if (!open) {
       try {
         const game = await axios.get(`${BASE_URL}/games/${gameId}`);
@@ -36,7 +34,6 @@ function Row({ event, sport, medal, gameId, playerId }) {
         console.log(error);
       }
     }
-    setLoading(false);
     setOpen(!open);
   };
   return (
