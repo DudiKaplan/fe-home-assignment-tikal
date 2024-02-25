@@ -5,7 +5,7 @@ export const topFivePlayersAlgorithm = async (setLoadAlgorithm, setTopFivePlayer
   try {
     const medalsGoldCount = await axios.get(`${BASE_URL}/events?medal=Gold&__action=count`);
     const totalPages = Math.ceil(medalsGoldCount.data.count / 100);
-    const events = await fetchDataInChunks(totalPages, 100);
+    const events = await fetchDataInChunks(totalPages, 100, `${BASE_URL}/events?medal=Gold`);
     const playerGoldMedalsMap = new Map();
 
     events.forEach((event) => {
@@ -35,9 +35,9 @@ export const topFivePlayersAlgorithm = async (setLoadAlgorithm, setTopFivePlayer
   }
 };
 
-const fetchChunk = async (page, pageSize) => {
+const fetchChunk = async (page, pageSize, url) => {
   try {
-    const response = await axios.get(`${BASE_URL}/events?_limit=${pageSize}&page=${page}&medal=Gold`);
+    const response = await axios.get(`${url}&_limit=${pageSize}&page=${page}`);
     await sleep(1000);
     return response.data;
   } catch (error) {
@@ -45,11 +45,11 @@ const fetchChunk = async (page, pageSize) => {
   }
 };
 
-const fetchDataInChunks = async (totalPages, pageSize) => {
+export const fetchDataInChunks = async (totalPages, pageSize, url) => {
   try {
     const promises = [];
     for (let page = 0; page <= totalPages; page++) {
-      promises.push(fetchChunk(page, pageSize));
+      promises.push(fetchChunk(page, pageSize, url));
     }
     const chunks = await Promise.all(promises);
 

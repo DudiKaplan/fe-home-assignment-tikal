@@ -14,6 +14,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { FilterAltOffOutlined, FilterAltOutlined } from '@mui/icons-material';
 import { BASE_URL, useAppContext } from './Context';
 import axios from 'axios';
+import { fetchDataInChunks } from './topFivePlayersAlgorithm';
 
 const TableFilters = () => {
   const [season, setSeason] = useState('');
@@ -76,12 +77,20 @@ const TableFilters = () => {
         if (!gameIds.length) gameIds = ['not found'];
       }
       if (player || lowerAge || upperAge) {
-        const resPlayer = await axios.get(
-          `${BASE_URL}/players?${player ? `name.contains=${player}&` : ''}${
-            lowerAge && upperAge ? `age.gte=${lowerAge}&age.lte=${upperAge}` : ''
-          }`
-        );
-        playerIds = resPlayer.data.map((player) => player.id);
+        const query = `${player ? `name.contains=${player}&` : ''}${
+          lowerAge && upperAge ? `age.gte=${lowerAge}&age.lte=${upperAge}` : ''
+        }`;
+
+        const playersCount = await axios.get(`${BASE_URL}/players?${query}&__action=count`);
+        let resPlayer;
+        if (playersCount.data.count > 100) {
+          const totalPages = Math.ceil(playersCount.data.count / 100);
+          resPlayer = await fetchDataInChunks(totalPages, 100, `${BASE_URL}/players?${query}`);
+        } else {
+          resPlayer = await axios.get(`${BASE_URL}/players?${query}`);
+          resPlayer = resPlayer.data;
+        }
+        playerIds = resPlayer.map((player) => player.id);
         if (!playerIds.length) playerIds = [-999];
       }
       setFilters((filters) => {
