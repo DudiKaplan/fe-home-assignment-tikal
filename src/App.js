@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 
 import TableRows from './TableRows';
 import { ContextProvider } from './Context';
+import BarChartTopFivePlayers from './BarChart';
 
 const darkTheme = createTheme({
   palette: {
@@ -29,8 +30,7 @@ const PaperContainer = styled(Paper)({
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
-  gap: '5rem',
-  height: '100vh',
+  gap: '4rem',
 });
 
 function App() {
@@ -40,6 +40,7 @@ function App() {
         <PaperContainer>
           <Typography variant="h1">Olympics Games</Typography>
           <TableRows />
+          <BarChartTopFivePlayers />
         </PaperContainer>
       </ThemeProvider>
     </ContextProvider>

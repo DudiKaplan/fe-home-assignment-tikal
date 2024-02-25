@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createContext, useContext, useState, useEffect } from 'react';
+import { topFivePlayersAlgorithm } from './topFivePlayersAlgorithm';
 
 export const BASE_URL = 'http://fe-home-assignment.infra.tikal.io/api';
 
@@ -11,6 +12,8 @@ export const ContextProvider = ({ children }) => {
   const [filters, setFilters] = useState({ limit: 15, page: 0, medals: [], gameIds: [], playerIds: [] });
   const [events, setEvents] = useState({});
   const [games, setGames] = useState([]);
+  const [loadAlgorithm, setLoadAlgorithm] = useState(true);
+  const [topFivePlayers, setTopFivePlayers] = useState([]);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -36,11 +39,14 @@ export const ContextProvider = ({ children }) => {
       } catch (error) {
         console.log(error);
       }
-
       setLoading(false);
     };
     fetchInitialData();
   }, [filters]);
+
+  useEffect(() => {
+    topFivePlayersAlgorithm(setLoadAlgorithm, setTopFivePlayers);
+  }, []);
 
   return (
     <AppContext.Provider
@@ -49,6 +55,8 @@ export const ContextProvider = ({ children }) => {
         events,
         setFilters,
         games,
+        topFivePlayers,
+        loadAlgorithm,
       }}
     >
       {children}

@@ -95,8 +95,8 @@ const TableFilters = () => {
       setMedals([]);
       setCity('');
       setCities('');
-      setLowerAge(0);
-      setUpperAge(0);
+      setLowerAge(null);
+      setUpperAge(null);
       setFilters((filters) => {
         return { ...filters, page: 0, medals: [], gameIds: [], playerIds: [] };
       });
