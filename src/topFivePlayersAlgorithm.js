@@ -69,15 +69,15 @@ export const fetchDataInChunks = async (totalPages, pageSize, url) => {
   }
 };
 
-const getPlayerName = async (playerId) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/players/${playerId}`);
-    return response.data.name;
-  } catch (error) {
-    console.error(`Error fetching player name for ID ${playerId}:`, error.message);
-    return null;
-  }
-};
+// const getPlayerName = async (playerId) => {
+//   try {
+//     const response = await axios.get(`${BASE_URL}/players/${playerId}`);
+//     return response.data.name;
+//   } catch (error) {
+//     console.error(`Error fetching player name for ID ${playerId}:`, error.message);
+//     return null;
+//   }
+// };
 
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
