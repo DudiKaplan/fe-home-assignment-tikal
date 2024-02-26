@@ -4,7 +4,7 @@ import { BarChart, Legend, Tooltip, YAxis, CartesianGrid, XAxis, Bar, Responsive
 import { useAppContext } from './Context';
 
 const BarChartTopFivePlayers = () => {
-  const { loadAlgorithm, topFivePlayers } = useAppContext();
+  const { loadAlgorithm, topFiveGames } = useAppContext();
 
   return (
     <Box sx={{ height: '40vh', p: 1, width: '100%' }}>
@@ -14,10 +14,10 @@ const BarChartTopFivePlayers = () => {
         <Skeleton variant="rectangular" width={'100%'} height={'100%'} />
       ) : (
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart width={500} height={300} data={topFivePlayers}>
+          <BarChart width={500} height={300} data={topFiveGames}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" stroke="#fff" />
-            <YAxis domain={[0, 3]} />
+            <YAxis domain={[0, 800]} />
             <Tooltip />
             <Legend />
             <Bar dataKey="value" fill="#8884d8" />
